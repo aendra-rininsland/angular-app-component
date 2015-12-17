@@ -1,0 +1,100 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<script src="../angular/angular.js"></script>
+
+<!--
+An element that wraps a AngularJS app. For testing purposes.
+
+Example:
+
+    <angular-app></angular-app>
+
+Example:
+
+    <angular-app app-js="" vendor-js="" stylesheet="">
+      <div ng-app="testApp">
+        <h2>Rest of app template goes here</h2>
+      </div>
+    </angular-app>
+
+N.b., the above syntax is not yet functional and is provided for prototyping purposes.
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="angular-app">
+  <template>
+    <div ng-app="TestApp">
+      <div ng-controller="TestCtrl">
+        <div ng-bind="testBoundString"></div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'angular-app',
+
+      properties: {
+      },
+
+      // Element Lifecycle
+
+      ready: function() {
+        angular.module('TestApp', []).controller('TestCtrl', ['$scope', function($scope){
+          $scope.testBoundString = 'OMG LOOK BOUND STUFF';
+        }]);
+      },
+
+      attached: function() {
+      },
+
+      detached: function() {
+        // The analog to `attached`, `detached` fires when the element has been
+        // removed from a document.
+        //
+        // Use this to clean up anything you did in `attached`.
+      },
+
+      // Element Behavior
+
+      /**
+       * Sometimes it's just nice to say hi.
+       *
+       * @param {string} greeting A positive greeting.
+       * @return {string} The full greeting.
+       */
+      sayHello: function(greeting) {
+        var response = greeting || 'Hello World!';
+        return 'angular-app says, ' + response;
+      },
+
+      /**
+       * The `angular-app-lasers` event is fired whenever `fireLasers` is called.
+       *
+       * @event angular-app-lasers
+       * @detail {{sound: String}}
+       */
+
+      /**
+       * Attempt to destroy this element's enemies with a beam of light!
+       *
+       * Or, at least, dispatch an event in the vain hope that someone else will
+       * do the zapping.
+       */
+      fireLasers: function() {
+        this.fire('angular-app-lasers', {sound: 'Pew pew!'});
+      }
+    });
+  </script>
+</dom-module>
